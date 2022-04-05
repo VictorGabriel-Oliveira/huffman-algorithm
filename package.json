@@ -1,0 +1,14 @@
+{
+  "name": "huffman",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "victor gabriel <deoliveiraabreuvictorgabriel@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test":"jest",
+    "dev":"node index.js"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}
