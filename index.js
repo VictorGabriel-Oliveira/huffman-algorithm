@@ -1,12 +1,23 @@
 let simbolsFrequrnciArray = []
 class Node {  
     constructor(value, char, left, right) {  
-        this.val  =value; // number of character occurrences  
-        this.char  =char; // character to be encoded  
+        this.val  =value; 
+        this.char  =char; 
         this.left = left;  
         this.right = right;  
     }  
 }
+const encode = (text) => {
+    const listOfFrequenciAndSImbols = getFrequenciSimbols(text)
+    const binaryTree =  getBinaryTree(listOfFrequenciAndSImbols)
+    const mapHuffmanCode = getHuffmanCode(binaryTree)
+
+    const huffmancode = getBinaryString(mapHuffmanCode, text)
+
+    return huffmancode
+
+}
+
 const getFrequenciSimbols = (text) => {
     for(let i = 0;i < text.length;i++){
         countFrenquenci(text.charAt(i))
@@ -44,7 +55,7 @@ const getBinaryTree = (listOfChar) => {
             return a.val - b.val
         })
 
-        let node = new Node(tree[0].val + tree[1].val, '') // setando a raiz da arvore 
+        let node = new Node(tree[0].val + tree[1].val, '') 
         
         allNodes.push(tree[0])
         allNodes.push(tree[1])
@@ -64,10 +75,51 @@ const getBinaryTree = (listOfChar) => {
 
 }
 
+const getHuffmanCode = (binaryTree) => {
+    let code = {}
+
+    const encoded = (node, path) => {
+       
+        if(!node.length && !node.right) return
+        if(node.left && !node.left.left && !node.left.rigth){
+            
+             code[node.left.char] = path + '0'
+        }
+        if(node.right &&  !node.right.left && !node.right.right ){
+            
+           
+             code[node.right.char] = path + '1'
+        }
+        if(node.left){
+           
+            encoded(node.left, path + '0')
+        }
+        if(node.right){
+           
+            encoded(node.right, path + '1')
+        }
+         code
+    }
+    encoded(binaryTree,'')
+    return code
+    
+}
+
+const getBinaryString = (map, originalString) => {
+    let result = ''
+    for(let i = 0; i < originalString.length ; i++ ){
+        result += map[originalString[i]]
+    }
+    return result
+}
+
+console.log(encode('hello world'))
 
 module.exports = {
     getFrequenciSimbols,
     countFrenquenci,
-    getBinaryTree
+    getBinaryTree,
+    getHuffmanCode,
+    getBinaryString
     
 }
